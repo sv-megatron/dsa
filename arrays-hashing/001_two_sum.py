@@ -109,17 +109,6 @@ if __name__ == "__main__":
 
 
 # -------------------------------
-# Example Run
-# -------------------------------
-if __name__ == "__main__":
-    nums = [2, 7, 11, 15]
-    target = 9
-
-    print("Brute Force:", two_sum_bruteforce(nums, target))
-    print("Optimal:", two_sum_optimal(nums, target))
-
-
-# -------------------------------
 # Key Learning
 # -------------------------------
 # Brute force checks all pairs → quadratic time.
