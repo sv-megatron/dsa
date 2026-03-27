@@ -108,10 +108,6 @@ if __name__ == "__main__":
     print("Optimal:", two_sum_optimal(nums, target))
 
 
-# - Duplicate values
-# - Exactly one solution guaranteed
-
-
 # -------------------------------
 # Example Run
 # -------------------------------
