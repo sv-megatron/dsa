@@ -1,116 +1,92 @@
 """
-Problem: Two Sum
-LeetCode #: 1
+Problem: Contains Duplicate
+LeetCode #: 217
 Difficulty: Easy
 
 Primary Pattern: Arrays + Hashing
-Secondary: Hash Map
+Secondary: Set
 
 Problem Statement:
-Given an array of integers nums and an integer target,
-return indices of the two numbers such that they add up to target.
-
-You may assume exactly one solution exists, and you may not use the same element twice.
+Given an integer array nums, return True if any value appears at least twice,
+and return False if every element is distinct.
 
 --------------------------------------------------
 
 Approach 1: Brute Force
 
 Idea:
-- Check every pair (i, j)
-- If nums[i] + nums[j] == target → return indices
-
-Time Complexity: O(n^2)
-Space Complexity: O(1)
+- Compare every pair of elements
+- If any nums[i] == nums[j] → duplicate found
 
 Time Complexity Analysis:
+- Two nested loops
 - Outer loop runs n times
-- Inner loop runs (n-1), (n-2), ..., 1 times
+- Inner loop runs ~n times
 - Total comparisons ≈ n(n-1)/2 → O(n^2)
 
 Space Complexity Analysis:
 - No extra data structures used
-- Only a few variables → constant space → O(1)
+- Constant space → O(1)
 
 --------------------------------------------------
 
-Approach 2: Hash Map (Optimal)
+Approach 2: Hash Set (Optimal)
 
 Key Insight:
-- Instead of checking all pairs, store numbers as you go
-- For each number, check if (target - num) already exists
-
-Why it works:
-- We trade space for time
-- Lookup becomes O(1)
-
-Time Complexity: O(n)
-Space Complexity: O(n)
+- A set stores only unique elements
+- If an element already exists → duplicate found
 
 Time Complexity Analysis:
-- Single loop through array → O(n)
-- Each lookup in hashmap → O(1)
-- Total = O(n) * O(1) = O(n)
+- Single pass through array → O(n)
+- Each lookup in set → O(1) average
+- Total = O(n)
 
 Space Complexity Analysis:
-- In worst case, we store all n elements in hashmap
-- So space grows linearly with input size → O(n)
+- In worst case, all elements are unique
+- Set stores n elements → O(n)
 
 --------------------------------------------------
 """
 
+
 # -------------------------------
 # Approach 1: Brute Force
 # -------------------------------
-
-
-def two_sum_bruteforce(nums, target):
-    for i in range(len(nums)):          # runs n times
-        for j in range(i + 1, len(nums)):  # runs ~n times
-            if nums[i] + nums[j] == target:
-                return [i, j]
-
-
-# -------------------------------
-# Approach 2: Optimal (Hash Map)
-# -------------------------------
-
-
-def two_sum_optimal(nums, target):
-    hashmap = {}  # value -> index
-
-    for i, num in enumerate(nums):   # single pass → n iterations
-        complement = target - num
-
-        # O(1) average lookup
-        if complement in hashmap:
-            return [hashmap[complement], i]
-
-        hashmap[num] = i  # O(1) insert
+def contains_duplicate_bruteforce(nums):
+    for i in range(len(nums)):
+        for j in range(i + 1, len(nums)):
+            if nums[i] == nums[j]:
+                return True
+    return False
 
 
 # -------------------------------
-# Edge Cases
+# Approach 2: Optimal (Set)
 # -------------------------------
-# - Negative numbers
-# - Duplicate values
-# - Exactly one solution guaranteed
+def contains_duplicate(nums):
+    seen = set()
+
+    for num in nums:   # runs n times
+        if num in seen:   # O(1) lookup
+            return True
+        seen.add(num)     # O(1) insert
+
+    return False
 
 
 # -------------------------------
 # Example Run
 # -------------------------------
 if __name__ == "__main__":
-    nums = [2, 7, 11, 15]
-    target = 9
+    nums = [1, 2, 3, 1]
 
-    print("Brute Force:", two_sum_bruteforce(nums, target))
-    print("Optimal:", two_sum_optimal(nums, target))
+    print("Brute Force:", contains_duplicate_bruteforce(nums))
+    print("Optimal:", contains_duplicate(nums))
 
 
 # -------------------------------
 # Key Learning
 # -------------------------------
-# Brute force checks all pairs → quadratic time.
-# Hashmap reduces repeated work by storing seen values,
-# turning it into a linear-time solution.
+# Sets help detect duplicates efficiently by providing
+# constant-time membership checks.
+
